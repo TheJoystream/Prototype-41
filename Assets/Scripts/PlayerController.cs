@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody playerRb;
+    private float powerUpStrength = 15.0f;
     public float speed = 5.0f;
     private GameObject focalPoint;
     public bool hasPowerUp = false;
@@ -24,7 +25,7 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Poweup"))
+        if(other.CompareTag("Powerup"))
         {
             hasPowerUp = true;
             Destroy(other.gameObject);
@@ -35,6 +36,10 @@ public class PlayerController : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Enemy") && hasPowerUp)
         {
+            Rigidbody enemyRigidbody = collision.gameObject.GetComponent<Rigidbody>();
+            Vector3 awayFromplayer = collision.gameObject.transform.position - transform.position;
+
+            enemyRigidbody.AddForce(awayFromplayer * powerUpStrength, ForceMode.Impulse);
             Debug.Log("Collided with: " + collision.gameObject.name + " with powerup set to" + hasPowerUp);
         }
     }
