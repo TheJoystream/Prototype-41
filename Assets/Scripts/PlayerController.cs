@@ -25,6 +25,17 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Poweup"))
-        { Destroy(other.gameObject); }
+        {
+            hasPowerUp = true;
+            Destroy(other.gameObject);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Enemy") && hasPowerUp)
+        {
+            Debug.Log("Collided with: " + collision.gameObject.name + " with powerup set to" + hasPowerUp);
+        }
     }
 }
